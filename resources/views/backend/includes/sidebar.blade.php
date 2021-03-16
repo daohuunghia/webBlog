@@ -57,15 +57,15 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            {{trans('backend.Product')}}
+                            {{ trans('backend.product') }}
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('admin.category.index')}}" class="nav-link">
+                            <a href="{{ route('admin.category.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{trans('backend.Category')}}</p>
+                                <p>{{ trans('backend.category') }}</p>
                             </a>
                         </li>
                     </ul>

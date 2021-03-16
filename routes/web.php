@@ -21,8 +21,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'lo
     //Danh muc san pham
     Route::group(['prefix' => 'category'], function () {
         Route::get('/', 'CategoryController@index')->name('admin.category.index');
-        Route::get('create', 'CategoryController@create')->name('admin.category.create');
-        Route::get('update/{id}', 'CategoryController@update')->name('admin.category.update');
+        Route::get('create', 'CategoryController@getCreate')->name('admin.category.get.create');
+        Route::post('create', 'CategoryController@postCreate')->name('admin.category.post.create');
+        Route::get('update/{id}', 'CategoryController@getUpdate')->name('admin.category.get.update');
+        Route::get('update/{id}', 'CategoryController@postUpdate')->name('admin.category.post.update');
         Route::get('delete/{id}', 'CategoryController@index')->name('admin.category.delete');
     });
 });

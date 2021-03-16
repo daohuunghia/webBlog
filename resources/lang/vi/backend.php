@@ -1,5 +1,7 @@
 <?php
 return [
-    'welcome' => 'Chào mừng tới trang web'
+    'Welcome' => 'Chào mừng tới trang web',
+    'Product' => 'Sản phẩm',
+    'Category' => 'Danh mục'
 ];
 
