@@ -12,10 +12,13 @@ class Category extends Model implements TranslatableContract
 
     protected $table = 'categories';
     const STATUS_ACTIVE = 1; // hoạt động
-    const STATUS_LOCK = 2; // khóa
+    const STATUS_LOCK = 0; // khóa
 
-    public $translatedAttributes = ['title', 'keyword', 'description'];
-    protected $fillable = ['slug', 'avatar', 'parent_id', 'status', 'hot'];
+    const HOT = 1; 
+    const NORMAL = 0;
+
+    public $translatedAttributes = ['title', 'slug', 'keyword', 'description'];
+    protected $fillable = ['avatar', 'parent_id', 'status', 'hot'];
 
     public $translationModel = 'App\Models\CategoryTranslations';
 

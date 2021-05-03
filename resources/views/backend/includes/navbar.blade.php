@@ -1,12 +1,12 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
-            <a class="nav-link" href="{{ route('admin.change-languague', ['language' => 'vi']) }}">
+            <a class="nav-link" href="{{ route('admin.change-languague', ['lang' => 'vi']) }}">
                 <img src="{{asset('backend/images/flag-vi.png')}}" style="width:30px"/>
             </a>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link" href="{{ route('admin.change-languague', ['language' => 'en']) }}">
+            <a class="nav-link" href="{{ route('admin.change-languague', ['lang' => 'en']) }}">
                 <img src="{{asset('backend/images/flag-en.jpg')}}" style="width:30px"/>
             </a>
         </li>

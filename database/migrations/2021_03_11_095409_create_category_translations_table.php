@@ -18,6 +18,7 @@ class CreateCategoryTranslationsTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->string('locale')->index();
             $table->string('title');
+            $table->string('slug');
             $table->text('keyword')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();

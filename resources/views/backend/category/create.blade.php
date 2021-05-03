@@ -48,8 +48,7 @@
                                         <select name="parent_id" id="parent_id" class="form-control select2" style="width: 100%;">
                                             @if (!empty($categories))
                                                 @foreach ($categories as $item)
-                                                    <option value="{{ $item->id }}">{{$item->translateOrNew('vi')->title}}</option>
-                                                    <option value="{{ $item->id }}">{{$item->translateOrNew('en')->title}}</option>
+                                                    <option value="{{ $item->id }}">{{$item->title}}</option>
                                                 @endforeach
                                             @endif
                                         </select>

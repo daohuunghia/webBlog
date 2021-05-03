@@ -57,7 +57,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            {{ trans('backend.product') }}
+                            {{ trans('backend.Product') }}
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -65,7 +65,7 @@
                         <li class="nav-item">
                             <a href="{{ route('admin.category.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ trans('backend.category') }}</p>
+                                <p>{{ trans('backend.Category') }}</p>
                             </a>
                         </li>
                     </ul>

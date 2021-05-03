@@ -14,10 +14,10 @@ class DashboardController extends Controller
         return view('backend.index');
     }
 
-    public function changeLanguage (Request $request, $language)
+    public function changeLanguage (Request $request, $lang)
     {
-        if (in_array($language, $this->langActive)) {
-            $request->session()->put(['language' => $language]);
+        if (in_array($lang, $this->langActive)) {
+            $request->session()->put(['lang' => $lang]);
             return redirect()->back();
         }
     }
