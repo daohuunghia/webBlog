@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'locale'], function () {
-    Route::get('change-languague/{language}', 'DashboardController@changeLanguage')->name('admin.change-languague');
+    Route::get('change-languague/{lang}', 'DashboardController@changeLanguage')->name('admin.change-languague');
     Route::get('dashboard', 'DashboardController@dashboard');
     //Danh muc san pham
     Route::group(['prefix' => 'category'], function () {
