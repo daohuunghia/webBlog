@@ -1,0 +1,3 @@
+.has-error input, .has-error .select2-selection--single, .has-error textarea {
+    border: 1px solid red;
+}
