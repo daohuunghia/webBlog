@@ -52,6 +52,9 @@
 <script src="{{asset('backend/dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('backend/dist/js/demo.js')}}"></script>
+<!-- https://kit.fontawesome.com/6e8ef6f5a2.js -->
+<script src="{{asset('backend/dist/js/fontawesome.js')}}" crossorigin="anonymous"></script>
+<script src="{{asset('backend/dist/js/upload-file.js')}}"></script>
 @stack('script')
 </body>
 </html>

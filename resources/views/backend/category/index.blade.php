@@ -44,12 +44,13 @@
                                 <thead>
                                 <tr>
                                     <th>{{ trans('Id') }}</th>
-                                    <th>{{ trans('Title') }}</th>
+                                    <th>{{ trans('backend.Title') }}</th>
+                                    <th>{{ trans('backend.Avatar')  }}</th>
                                     <th>{{ trans('Parent') }}</th>
-                                    <th>{{ trans('Status') }}</th>
-                                    <th>{{ trans('Created at') }}</th>
-                                    <th>{{ trans('Created by') }}</th>
-                                    <th>{{ trans('Action') }}</th>
+                                    <th>{{ trans('backend.Status') }}</th>
+                                    <th>{{ trans('backend.Created at') }}</th>
+                                    <th>{{ trans('backend.Created by') }}</th>
+                                    <th>{{ trans('backend.Action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -58,17 +59,51 @@
                                             <tr>
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->title }}</td>
+                                                <td>
+                                                    @if ($item->avatar)
+                                                        <img src="{{ $item->avatar }}" style="width: 100px"/>
+                                                    @else
+                                                        <img src="/backend/images/default.jpg" style="width: 100px"/>
+                                                    @endif
+                                                </td>
                                                 <td>{{ $item->parent_id }}</td>
-                                                <td>{{ $item->status }}</td>
+                                                <td>
+                                                    <a href="{{ route('admin.category.action', ['status', $item->id]) }}" class="btn btn-{{ $item->getStatus($item->status)['class'] }} btn-xs" style="width: 80px;">
+                                                        {{ trans($item->getStatus($item->status)['name'])  }}
+                                                    </a>
+                                                </td>
                                                 <td>{{ $item->created_at }}</td>
-                                                <td><span class="tag tag-danger">Denied</span></td>
-                                                <td></td>
+                                                <td>
+                                                    <strong>{{ $item->created_by }}</strong>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('admin.category.get.update', $item->id) }}" class="mr-3 text-blue"><i class="fas fa-edit"></i></a>
+                                                    <a href="{{ route('admin.category.action', ['delete', $item->id]) }}" data-toggle="modal" data-target="#exampleModal" class="text-danger">
+                                                        <i class="fas fa-trash"></i></a>
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('backend.Bạn chắc chắn muốn xóa ?') }}</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('backend.Đóng') }}</button>
+                                                                    <a href="{{ route('admin.category.action', ['delete', $item->id]) }}" type="button" class="btn btn-primary">{{ trans('backend.Thực thi') }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endif
                                 </tbody>
                             </table>
                         </div>
+                        {{ $categories->links() }}
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
