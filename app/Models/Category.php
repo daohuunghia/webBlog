@@ -19,7 +19,7 @@ class Category extends Model implements TranslatableContract
     const NORMAL = 0;
 
     public $translatedAttributes = ['title', 'slug', 'keyword', 'description'];
-    protected $fillable = ['avatar', 'parent_id', 'status', 'hot'];
+    protected $fillable = ['avatar', 'parent_id', 'status', 'hot', 'user_id'];
 
     public $translationModel = 'App\Models\CategoryTranslations';
 
@@ -36,27 +36,38 @@ class Category extends Model implements TranslatableContract
     public function category_translations () {
         return $this->hasMany('App\Models\CategoryTranslations');
     }
+
+    public function user ()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
     public function getStatus () {
        return array_get($this->statusList, $this->status);
-    }
-    public function getLftName()
-    {
-        return '_lft';
-    }
-
-    public function getRgtName()
-    {
-        return '_rgt';
-    }
-
-    public function getParentIdName()
-    {
-        return 'parent_id';
     }
 
     // Specify parent id attribute mutator
     public function setParentAttribute($value)
     {
         $this->setParentIdAttribute($value);
+    }
+
+    public static function _sort($models, $parent_id = 0, &$index = 0)
+    {
+        foreach ($models as $model) {
+            if ($model->parent_id == $parent_id) {
+                $index++;
+                $model->_lft = $index;
+                if (!Category::_sort($models, $model->id, $index)) {
+                    return false;
+                }
+                $index++;
+                $model->_rgt = $index;
+                if (!$model->save()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
