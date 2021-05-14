@@ -54,7 +54,27 @@
 <script src="{{asset('backend/dist/js/demo.js')}}"></script>
 <!-- https://kit.fontawesome.com/6e8ef6f5a2.js -->
 <script src="{{asset('backend/dist/js/fontawesome.js')}}" crossorigin="anonymous"></script>
+<script src="{{ asset('backend/dist/js/toastr.min.js') }}"></script>
 <script src="{{asset('backend/dist/js/upload-file.js')}}"></script>
+<script type="text/javascript">
+    if (typeof TYPE_MESSAGE != "undefined")
+    {
+        switch (TYPE_MESSAGE) {
+            case 'success':
+                toastr.success(MESSAGE)
+                break;
+            case 'warning':
+                toastr.warning(MESSAGE)
+                break;
+            case 'info':
+                toastr.info(MESSAGE)
+                break;
+            case 'error':
+                toastr.error(MESSAGE)
+                break;
+        }
+    }
+</script>
 @stack('script')
 </body>
 </html>

@@ -1,26 +1,11 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
-            <a class="nav-link" href="{{ route('admin.change-languague', ['lang' => 'vi']) }}">
-                <img src="{{asset('backend/images/flag-vi.png')}}" style="width:30px"/>
-            </a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link" href="{{ route('admin.change-languague', ['lang' => 'en']) }}">
-                <img src="{{asset('backend/images/flag-en.jpg')}}" style="width:30px"/>
-            </a>
-        </li>
-    </ul>
-</nav>
-<!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="index3.html" class="nav-link">Home</a>
+            <a href="../../index3.html" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
@@ -38,6 +23,7 @@
             </div>
         </div>
     </form>
+
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
@@ -50,7 +36,7 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="{{asset('backend/dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                        <img src="{{ asset('backend/dist/img/user1-128x128.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 Brad Diesel
@@ -125,6 +111,38 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
         </li>
+        <!-- Language Dropdown Menu -->
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                @if (app()->getLocale() == 'vi')
+                    <i class="flag-icon flag-icon-vn"></i>
+                @else
+                    <i class="flag-icon flag-icon-us"></i>
+                @endif
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-0">
+                <a href="{{ route('admin.change-languague', ['lang' => 'vi']) }}" class="dropdown-item {{ app()->getLocale() == 'vi' ? 'active' : '' }}">
+                    <i class="flag-icon flag-icon-vn mr-2"></i> VN
+                </a>
+                <a href="{{ route('admin.change-languague', ['lang' => 'en']) }}" class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}">
+                    <i class="flag-icon flag-icon-us mr-2"></i> EN
+                </a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              {{ \Auth::check() ? Auth::user()->name : ''}}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-0">
+                <a href="{{ route('admin.user.view') }}" class="dropdown-item">
+                    <i class="fa fa-user" aria-hidden="true"></i> Thông tin tài khoản
+                </a>
+                <a href="{{ route('admin.user.logout') }}" class="dropdown-item">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
+                </a>
+            </div>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                 <i class="fas fa-th-large"></i>

@@ -58,7 +58,7 @@
                                         @foreach($categories as $key =>$item)
                                             <tr>
                                                 <td>{{ $item->id }}</td>
-                                                <td>{{ $item->title }}</td>
+                                                <td>{{ str_repeat('--', $item->level) }} {{ $item->title }}</td>
                                                 <td>
                                                     @if ($item->avatar)
                                                         <img src="{{ $item->avatar }}" style="width: 100px"/>
@@ -66,7 +66,7 @@
                                                         <img src="/backend/images/default.jpg" style="width: 100px"/>
                                                     @endif
                                                 </td>
-                                                <td>{{ $item->parent_id }}</td>
+                                                <td></td>
                                                 <td>
                                                     <a href="{{ route('admin.category.action', ['status', $item->id]) }}" class="btn btn-{{ $item->getStatus($item->status)['class'] }} btn-xs" style="width: 80px;">
                                                         {{ trans($item->getStatus($item->status)['name'])  }}
@@ -78,24 +78,8 @@
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('admin.category.get.update', $item->id) }}" class="mr-3 text-blue"><i class="fas fa-edit"></i></a>
-                                                    <a href="{{ route('admin.category.action', ['delete', $item->id]) }}" data-toggle="modal" data-target="#exampleModal" class="text-danger">
+                                                    <a href="{{ route('admin.category.action', ['delete', $item->id]) }}" onclick="return confirm('Bạn muốn xóa ?')" class="text-danger">
                                                         <i class="fas fa-trash"></i></a>
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('backend.Bạn chắc chắn muốn xóa ?') }}</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('backend.Đóng') }}</button>
-                                                                    <a href="{{ route('admin.category.action', ['delete', $item->id]) }}" type="button" class="btn btn-primary">{{ trans('backend.Thực thi') }}</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -103,7 +87,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{ $categories->links() }}
+{{--                        {{ $categories->links() }}--}}
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->

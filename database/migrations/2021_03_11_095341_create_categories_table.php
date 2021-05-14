@@ -19,6 +19,8 @@ class CreateCategoriesTable extends Migration
             $table->string('avatar')->nullable();
             $table->tinyInteger('status')->default(1)->index();
             $table->tinyInteger('hot')->default(1)->index();
+            $table->tinyInteger('level')->default(0)->index();
+            $table->integer('user_id')->index();
             NestedSet::columns($table);
             $table->timestamps();
         });

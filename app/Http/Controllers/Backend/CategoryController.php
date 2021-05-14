@@ -6,12 +6,14 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminCategoryRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends BaseController
 {
     public function index ()
     {
-        $categories = Category::paginate(10);
+//        dd($categories->toArray());
+        $categories = Category::get()->toFlatTree();
         $data = [
             'categories' => $categories
         ];
@@ -21,8 +23,8 @@ class CategoryController extends BaseController
     public function getCreate ()
     {
         $categories = Category::where('status', Category::STATUS_ACTIVE)
-            ->select('id', 'parent_id')
-            ->get();
+            ->get()
+            ->toFlatTree();
         return view('backend.category.create', ['categories' => $categories]);
     }
 
@@ -34,6 +36,7 @@ class CategoryController extends BaseController
         $category->slug = str_slug($request->title);
         $category->status = $request->status ? Category::STATUS_ACTIVE : Category::STATUS_LOCK;
         $category->hot = $request->hot ? Category::HOT : Category::NORMAL;
+        $category->user_id = Auth::user()->id;
         $category->translateOrNew('en')->title = trim($request->input('en_title'));
         $category->translateOrNew('vi')->title = trim($request->input('vi_title'));
         $category->translateOrNew('en')->slug = str_slug($request->input('en_title'));
@@ -42,36 +45,31 @@ class CategoryController extends BaseController
         $category->translateOrNew('vi')->keyword = $request->input('vi_keyword');
         $category->translateOrNew('en')->description = $request->input('en_description');
         $category->translateOrNew('vi')->description = $request->input('vi_description');
+        if ($request->parent_id) {
+            $parent = Category::where('id', $request->parent_id)->select('id', 'level')->first();
+            $category->level = $parent->level + 1;
+        } else {
+            $category->level = 0;
+        }
         $categories = Category::all();
-        $this->_sort($categories);
+        Category::_sort($categories);
         $category->save();
         return redirect()->route('admin.category.index');
     }
 
-    protected function _sort($models, $parent_id = 0, &$index = 0)
-    {
-        foreach ($models as $model) {
-            if ($model->parent_id == $parent_id) {
-                $index++;
-                $model->_lft = $index;
-                if (!$this->_sort($models, $model->id, $index)) {
-                    return false;
-                }
-                $index++;
-                $model->_rgt = $index;
-                if (!$model->save()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    public function getUpdate (Request $request, $id)
+    public function getUpdate ($id)
     {
         $category = Category::find($id);
+        $this->authorize('update', $category);
+
+        $relationshipId = Category::where('status', Category::STATUS_ACTIVE)
+            ->where('_lft', '>=', $category->_lft)
+            ->where('_rgt', '<=', $category->_rgt)
+            ->pluck('id');
         $categories = Category::where('status', Category::STATUS_ACTIVE)
-            ->select('id', 'parent_id')
-            ->get();
+            ->whereNotIn('id', $relationshipId)
+            ->get()
+            ->toFlatTree();
         $data = [
             'categories' => $categories,
             'category' => $category
@@ -88,6 +86,7 @@ class CategoryController extends BaseController
             $category->slug = str_slug($request->title);
             $category->status = $request->status ? Category::STATUS_ACTIVE : Category::STATUS_LOCK;
             $category->hot = $request->hot ? Category::HOT : Category::NORMAL;
+            $category->user_id = Auth::user()->id;
             $category->translateOrNew('en')->title = trim($request->input('en_title'));
             $category->translateOrNew('vi')->title = trim($request->input('vi_title'));
             $category->translateOrNew('en')->slug = str_slug($request->input('en_title'));
@@ -96,28 +95,34 @@ class CategoryController extends BaseController
             $category->translateOrNew('vi')->keyword = $request->input('vi_keyword');
             $category->translateOrNew('en')->description = $request->input('en_description');
             $category->translateOrNew('vi')->description = $request->input('vi_description');
+            if ($request->parent_id) {
+                $parent = Category::where('id', $request->parent_id)->select('id', 'level')->first();
+                $category->level = $parent->level + 1;
+            } else {
+                $category->level = 0;
+            }
             $categories = Category::all();
-            $this->_sort($categories);
+            Category::_sort($categories);
+            $category->save();
         }
         return redirect()->route('admin.category.index');
     }
 
-    public function active (Request $request, $id)
+    public function getAction ($action, $id)
     {
-    }
-
-    public function getAction (Request $request, $action, $id)
-    {
-        $category = Category::find($id);
-        if ($category) {
+        if ($action) {
             switch ($action) {
                 case 'status':
+                    $category = Category::find($id);
                     $category->status = !$category->status;
                     $category->save();
                     break;
                 case 'delete':
-                    $category->delete();
-                    $category->deleteTranslations();
+                    $categories = Category::descendantsAndSelf($id);
+                    foreach ($categories as $item) {
+                        $item->deleteTranslations();
+                        $item->delete();
+                    }
                     break;
             }
         }

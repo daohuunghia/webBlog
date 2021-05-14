@@ -30,14 +30,14 @@
                                 </div>
                                 <div class="card-body row">
                                     <div class="form-group col-md-12 {{ $errors->first('vi_title') ? 'has-error' : '' }}">
-                                        <label for="vi_title">{{ trans('backend.Title') }}<span class="text-danger"> Vi</span></label>
+                                        <label for="vi_title">{{ trans('backend.Title') }}<i class="flag-icon flag-icon-vn mr-2 ml-1"></i><span class="text-danger"> *</span></label>
                                         <input type="text" name="vi_title" value="{{ old('vi_title') }}" class="form-control" id="vi_title" />
                                         @if ($errors->has('vi_title'))
                                             <span class="text-danger">{{$errors->first('vi_title')}}</span>
                                         @endif
                                     </div>
                                     <div class="form-group col-md-12 {{ $errors->first('en_title') ? 'has-error' : '' }}">
-                                        <label for="en_title">{{ trans('backend.Title') }}<span class="text-danger"> En</span></label>
+                                        <label for="en_title">{{ trans('backend.Title') }}<i class="flag-icon flag-icon-us mr-2 ml-1"></i><span class="text-danger"> *</span></label>
                                         <input type="text" name="en_title" value="{{ old('en_title') }}" class="form-control" id="en_title">
                                         @if ($errors->has('en_title'))
                                             <span class="text-danger">{{$errors->first('en_title')}}</span>
@@ -49,7 +49,7 @@
                                             <option value="">--{{ trans('backend.Chọn danh mục') }}--</option>
                                             @if (!empty($categories))
                                                 @foreach ($categories as $item)
-                                                    <option {{ old('parent_id') == $item->id ? "selected" : "" }} value="{{ $item->id }}">{{$item->title}}</option>
+                                                    <option {{ old('parent_id') == $item->id ? "selected" : "" }} value="{{ $item->id }}">{{ str_repeat('--', $item->level) }} {{$item->title}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -97,28 +97,28 @@
                                 </div>
                                 <div class="card-body row">
                                     <div class="form-group col-md-12 {{ $errors->first('vi_keyword') ? 'has-error' : '' }}">
-                                        <label for="vi_keyword">{{ trans('backend.Keyword') }}<span class="text-danger"> Vi</span></label>
+                                        <label for="vi_keyword">{{ trans('backend.Keyword') }}<i class="flag-icon flag-icon-vn mr-2 ml-1"></i><span class="text-danger"> *</span></label>
                                         <textarea name="vi_keyword" id="vi_keyword" class="form-control" rows="4">{{ old('vi_keyword') }}</textarea>
                                         @if ($errors->has('vi_keyword'))
                                             <span class="text-danger">{{$errors->first('vi_keyword')}}</span>
                                         @endif
                                     </div>
                                     <div class="form-group col-md-12 {{ $errors->first('en_keyword') ? 'has-error' : '' }}">
-                                        <label for="en_keyword">{{ trans('backend.Keyword') }}<span class="text-danger"> En</span></label>
+                                        <label for="en_keyword">{{ trans('backend.Keyword') }}<i class="flag-icon flag-icon-us mr-2 ml-1"></i><span class="text-danger"> *</span></label>
                                         <textarea name="en_keyword" id="en_keyword" class="form-control" rows="4">{{ old('en_keyword') }}</textarea>
                                         @if ($errors->has('en_keyword'))
                                             <span class="text-danger">{{$errors->first('en_keyword')}}</span>
                                         @endif
                                     </div>
                                     <div class="form-group col-md-12 {{ $errors->first('vi_description') ? 'has-error' : '' }}">
-                                        <label for="vi_description">{{ trans('backend.Description') }}<span class="text-danger"> Vi</span></label>
+                                        <label for="vi_description">{{ trans('backend.Description') }}<i class="flag-icon flag-icon-vn mr-2 ml-1"></i><span class="text-danger"> *</span></label>
                                         <textarea name="vi_description" id="vi_description" class="form-control" rows="4">{{ old('vi_description') }}</textarea>
                                         @if ($errors->has('vi_description'))
                                             <span class="text-danger">{{$errors->first('vi_description')}}</span>
                                         @endif
                                     </div>
                                     <div class="form-group col-md-12 {{ $errors->first('en_description') ? 'has-error' : '' }}">
-                                        <label for="en_description">{{ trans('backend.Description') }}<span class="text-danger"> En</span></label>
+                                        <label for="en_description">{{ trans('backend.Description') }}<i class="flag-icon flag-icon-us mr-2 ml-1"></i><span class="text-danger"> *</span></label>
                                         <textarea name="en_description" id="en_description" class="form-control" rows="4">{{ old('en_description') }}</textarea>
                                         @if ($errors->has('en_description'))
                                             <span class="text-danger">{{$errors->first('en_description')}}</span>
