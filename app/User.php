@@ -54,4 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getStatus () {
         return array_get($this->statusList, $this->status);
     }
+
+    public function roles () {
+        return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');
+    }
 }

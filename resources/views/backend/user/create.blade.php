@@ -23,7 +23,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <!-- /.col -->
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="card">
                             <div class="card-body">
                                 <form class="form-horizontal" action="" method="POST">
@@ -34,6 +34,22 @@
                                             <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="{{ trans('backend.Họ & tên') }}">
                                             @if ($errors->has('name'))
                                                 <span class="text-danger">{{$errors->first('name')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">{{ trans('backend.Vai trò') }} <span class="text-danger"> *</span></label>
+                                        <div class="col-sm-10">
+                                            <select name="role_id" id="role_id" class="form-control select2 role_id" style="width: 100%;">
+                                                <option value="">--{{ trans('backend.Chọn vai trò') }}--</option>
+                                                @if (!empty($roles))
+                                                    @foreach ($roles as $item)
+                                                        <option {{ old('role_id') == $item->id ? "selected" : "" }} value="{{ $item->id }}">{{$item->name}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @if ($errors->has('role_id'))
+                                                <span class="text-danger">{{$errors->first('role_id')}}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -123,6 +139,18 @@
                         </div>
                         <!-- /.nav-tabs-custom -->
                     </div>
+                    <div class="col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">{{ trans('backend.Quyền') }} <span class="text-danger"> *</span></label>
+                                    <div class="show-permissions">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.nav-tabs-custom -->
+                    </div>
                     <!-- /.col -->
                 </div>
                 <!-- /.row -->
@@ -133,4 +161,41 @@
 @endsection
 @push('script')
     @include('backend.includes.script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            let element = $('.role_id');
+            if (element.val() !== '') {
+                let data = { id: element.val() };
+                getPermissions(data);
+            } else {
+                getPermissionsDefault();
+            }
+            $('.role_id').change(function() {
+                if ($(this).val() !== '') {
+                    let data = { id: $(this).val() };
+                    let URL = $(this).attr('url');
+                    getPermissions(data);
+                } else {
+                    getPermissionsDefault();
+                }
+            });
+            function getPermissionsDefault () {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route('admin.role.ajax_get_permission_default') }}',
+                }).done(function(data) {
+                    $('.show-permissions').html(data.html)
+                });
+            }
+            function getPermissions (data) {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route('admin.role.ajax_get_permission') }}',
+                    data: data
+                }).done(function(data) {
+                    $('.show-permissions').html(data.html)
+                });
+            }
+        });
+    </script>
 @endpush

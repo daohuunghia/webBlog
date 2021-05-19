@@ -28,7 +28,6 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Responsive Hover Table</h3>
                                 <div class="card-tools">
                                     <div class="input-group input-group-sm" style="width: 150px;">
                                         <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -55,9 +54,9 @@
                                             <tr>
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->name }}</td>
-                                                <td>
+                                                <td style="display: flex;flex-wrap: wrap;max-width: 950px;">
                                                     @foreach ($item->permissions as $permission)
-                                                            <span class="badge bg-info">{{ $permission->name }}</span>
+                                                            <span style="min-width: 100px;" class="badge bg-info mr-1 mb-1">{{ $permission->name }}</span>
                                                     @endforeach
                                                 </td>
                                                 <td>

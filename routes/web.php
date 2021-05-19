@@ -39,6 +39,8 @@ Route::middleware(['locale', 'checkLogoutUser'])->prefix('admin')->namespace('Ba
         Route::get('update/{id}', 'RoleController@getUpdate')->name('admin.role.update');
         Route::post('update/{id}', 'RoleController@postUpdate');
         Route::get('action/{action}/{id}', 'RoleController@getAction')->name('admin.role.action');
+        Route::get('ajax_get_permissions', 'RoleController@ajaxGetPermissions')->name('admin.role.ajax_get_permission');
+        Route::get('ajax_get_permissions_default', 'RoleController@ajaxGetPermissionsDefault')->name('admin.role.ajax_get_permission_default');
     });
 
     //3. Permission
