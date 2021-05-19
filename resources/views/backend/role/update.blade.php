@@ -31,7 +31,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">{{ trans('backend.Vai trò') }} <i class="flag-icon flag-icon-vn mr-2"></i><span class="text-danger"> *</span></label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="vi_name" value="{{ old('vi_name') }}" class="form-control" placeholder="{{ trans('backend.Vai trò') }}">
+                                            <input type="text" name="vi_name" value="{{ old('vi_name', $role->translate('vi')->name) }}" class="form-control" placeholder="{{ trans('backend.Vai trò') }}">
                                             @if ($errors->has('vi_name'))
                                                 <span class="text-danger">{{$errors->first('vi_name')}}</span>
                                             @endif
@@ -40,7 +40,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">{{ trans('backend.Vai trò') }} <i class="flag-icon flag-icon-us mr-2"></i><span class="text-danger"> *</span></label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="en_name" value="{{ old('en_name') }}" class="form-control" placeholder="{{ trans('backend.Vai trò') }}">
+                                            <input type="text" name="en_name" value="{{ old('en_name', $role->translate('en')->name) }}" class="form-control" placeholder="{{ trans('backend.Vai trò') }}">
                                             @if ($errors->has('en_name'))
                                                 <span class="text-danger">{{$errors->first('en_name')}}</span>
                                             @endif
@@ -53,7 +53,7 @@
                                                 <div class="form-group clearfix">
                                                     @foreach ($permissionChunk as $i => $item )
                                                         <div class="icheck-success d-inline-block mr-3 mb-3" style="width: 20%">
-                                                            <input type="checkbox" name="permissions_id[]" class="check-permission" value="{{ $item->id }}" id="permission-{{ $item->id }}">
+                                                            <input type="checkbox" name="permissions_id[]" {{ $permissionsOfRole->contains($item->id) ? 'checked' : '' }} class="check-permission" value="{{ $item->id }}" id="permission-{{ $item->id }}">
                                                             <label for="permission-{{ $item->id }}">
                                                                 {{ $item->name }}
                                                             </label>
@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="offset-sm-2 col-sm-10">
-                                            <button type="submit" class="btn btn-info">{{ trans('backend.Create new') }}</button>
+                                            <button type="submit" class="btn btn-info">{{ trans('backend.Update') }}</button>
                                         </div>
                                     </div>
                                 </form>

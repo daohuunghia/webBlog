@@ -46,6 +46,8 @@ return [
     "Quyền" => "Quyền",
     "Nội dung không được trống" => "Nội dung không được trống",
     "Thông tin không tồn tại" => "Thông tin không tồn tại",
-    "Chọn tất cả quyền" => "Chọn tất cả quyền"
+    "Chọn tất cả quyền" => "Chọn tất cả quyền",
+    "Xóa thành công" => "Xóa thành công",
+    "Chọn vai trò" => "Chọn vai trò"
 ];
 

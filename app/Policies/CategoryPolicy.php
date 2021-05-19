@@ -2,30 +2,105 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Models\Category;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
 class CategoryPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
+     * Determine whether the user can view any categories.
      *
-     * @return void
+     * @param  \App\User  $user
+     * @return mixed
      */
-    public function __construct()
+    public function viewAny(User $user)
+    {
+        if ($user->hasPermission('list-category')) {
+            return true;
+        }
+        return abort(401);
+    }
+
+    /**
+     * Determine whether the user can view the category.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Category  $category
+     * @return mixed
+     */
+    public function view(User $user, Category $category)
     {
         //
     }
 
-    public function update (User $user, Category $category)
+    /**
+     * Determine whether the user can create categories.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function create(User $user)
     {
-        return ($user->id == $category->user_id)
-            ? Response::allow()
-            : Response::deny('Bạn không có quyền');
+        if ($user->hasPermission('create-category')) {
+            return true;
+        }
+        return abort(401);
     }
 
+    /**
+     * Determine whether the user can update the category.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Category  $category
+     * @return mixed
+     */
+    public function update(User $user, Category $category)
+    {
+        if ($user->hasPermission('update-category')) {
+            return true;
+        }
+        return abort(401);
+    }
+
+    /**
+     * Determine whether the user can delete the category.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Category  $category
+     * @return mixed
+     */
+    public function delete(User $user, Category $category)
+    {
+        if ($user->hasPermission('delete-category', $category)) {
+            return true;
+        }
+        return abort(401);
+    }
+
+    /**
+     * Determine whether the user can restore the category.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Category  $category
+     * @return mixed
+     */
+    public function restore(User $user, Category $category)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can permanently delete the category.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Category  $category
+     * @return mixed
+     */
+    public function forceDelete(User $user, Category $category)
+    {
+        //
+    }
 }

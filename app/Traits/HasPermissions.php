@@ -7,7 +7,7 @@ trait HasPermissions
 {
     protected $permissionList = null;
 
-    public function roles()
+    private function roles()
     {
         return $this->belongsToMany(Role::class);
     }
@@ -15,7 +15,7 @@ trait HasPermissions
     public function hasRole($role)
     {
         if (is_string($role)) {
-            return $this->roles->contains('name', $role);
+            return $this->roles->contains('code', $role);
         }
 
         return false;
@@ -28,9 +28,9 @@ trait HasPermissions
         }
 
         if (is_string($permission)) {
-            return $this->getPermissions()->contains('name', $permission);
+            //( $this->getPermissions()->contains('code', $permission));
+            return $this->getPermissions()->contains('code', $permission);
         }
-
         return false;
     }
 

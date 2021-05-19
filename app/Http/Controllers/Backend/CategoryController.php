@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AdminCategoryRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends BaseController
 {
     public function index ()
     {
-//        dd($categories->toArray());
+        $this->authorize('viewAny', Category::class);
         $categories = Category::get()->toFlatTree();
         $data = [
             'categories' => $categories
@@ -22,6 +23,7 @@ class CategoryController extends BaseController
 
     public function getCreate ()
     {
+        $this->authorize('create', Category::class);
         $categories = Category::where('status', Category::STATUS_ACTIVE)
             ->get()
             ->toFlatTree();
@@ -30,6 +32,7 @@ class CategoryController extends BaseController
 
     public function postCreate (AdminCategoryRequest $request)
     {
+        $this->authorize('create', Category::class);
         $category = new Category();
         $category->avatar = $request->avatar;
         $category->parent_id = $request->parent_id ?? 0;
@@ -61,7 +64,6 @@ class CategoryController extends BaseController
     {
         $category = Category::find($id);
         $this->authorize('update', $category);
-
         $relationshipId = Category::where('status', Category::STATUS_ACTIVE)
             ->where('_lft', '>=', $category->_lft)
             ->where('_rgt', '<=', $category->_rgt)
@@ -80,6 +82,7 @@ class CategoryController extends BaseController
     public function postUpdate (AdminCategoryRequest $request, $id)
     {
         $category = Category::find($id);
+        $this->authorize('update', $category);
         if ($category) {
             $category->avatar = $request->avatar;
             $category->parent_id = $request->parent_id ?? 0;
@@ -110,10 +113,11 @@ class CategoryController extends BaseController
 
     public function getAction ($action, $id)
     {
+        $category = Category::find($id);
+        $this->authorize('delete', $category);
         if ($action) {
             switch ($action) {
                 case 'status':
-                    $category = Category::find($id);
                     $category->status = !$category->status;
                     $category->save();
                     break;

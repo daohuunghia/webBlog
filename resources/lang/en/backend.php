@@ -52,6 +52,8 @@ return [
     "Quyền" => "Permission",
     "Nội dung không được trống" => "Content cannot be empty",
     "Thông tin không tồn tại" => "Information does not exist",
-    "Chọn tất cả quyền" => "Select all permissions"
+    "Chọn tất cả quyền" => "Select all permissions",
+    "Xóa thành công" => "Delete successfully",
+    "Chọn vai trò" => "Select role"
 ];
 

@@ -22,7 +22,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <form class="form-horizontal" action="" method="POST">
@@ -34,6 +34,19 @@
                                             @if ($errors->has('name'))
                                                 <span class="text-danger">{{$errors->first('name')}}</span>
                                             @endif
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">{{ trans('backend.Vai trò') }} <span class="text-danger"> *</span></label>
+                                        <div class="col-sm-10">
+                                            <select name="role_id" id="role_id" class="form-control select2 role_id" style="width: 100%;">
+                                                <option value="">--{{ trans('backend.Chọn vai trò') }}--</option>
+                                                @if (!empty($roles))
+                                                    @foreach ($roles as $item)
+                                                        <option {{ $roleOfUser->contains($item->id) ? "selected" : "" }} value="{{ $item->id }}">{{$item->name}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -132,6 +145,18 @@
                         </div>
                         <!-- /.nav-tabs-custom -->
                     </div>
+                    <div class="col-md-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">{{ trans('backend.Quyền') }} <span class="text-danger"> *</span></label>
+                                    <div class="show-permissions">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.nav-tabs-custom -->
+                    </div>
                     <!-- /.col -->
                 </div>
                 <!-- /.row -->
@@ -144,6 +169,40 @@
     @include('backend.includes.script')
     <script type="text/javascript">
         $(document).ready(function() {
+            //1. Show quyền
+            let element = $('.role_id');
+            if (element.val() !== '') {
+                let data = { id: element.val() };
+                getPermissions(data);
+            } else {
+                getPermissionsDefault();
+            }
+            $('.role_id').change(function() {
+                if ($(this).val() !== '') {
+                    let data = { id: $(this).val() };
+                    getPermissions(data);
+                } else {
+                    getPermissionsDefault();
+                }
+            });
+            function getPermissionsDefault () {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route('admin.role.ajax_get_permission_default') }}',
+                }).done(function(data) {
+                    $('.show-permissions').html(data.html)
+                });
+            }
+            function getPermissions (data) {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route('admin.role.ajax_get_permission') }}',
+                    data: data
+                }).done(function(data) {
+                    $('.show-permissions').html(data.html)
+                });
+            }
+            //2. change password
             $('.checkChangePassword').click(function () {
                 if ($(this).is(':checked')) {
                     $('#password').attr('disabled', false);

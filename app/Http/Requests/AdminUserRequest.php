@@ -29,7 +29,8 @@ class AdminUserRequest extends FormRequest
             'password' => 'required|min:6|max:20',
             're_password' => 'required|same:password',
             'avatar' => 'required',
-            'phone' => 'min:10|max:11|unique:users,phone,' . $this->id,
+            'phone' => 'required|min:10|max:11|unique:users,phone,' . $this->id,
+            'role_id' => 'required'
         ];
     }
 
@@ -48,9 +49,11 @@ class AdminUserRequest extends FormRequest
             're_password.required' => 'Mật khẩu không được trống',
             're_password.same' => 'Mật khẩu nhập lại chưa khớp',
             'avatar.required' => 'Vui lòng upload một bức ảnh về bạn',
+            'phone.required' => 'Số điện thoại không được trống',
             'phone.min' => 'Số điện thoại có độ dài từ 6 đến 20 kí tự',
             'phone.max' => 'Số điện thoại có độ dài từ 6 đến 20 kí tự',
             'phone.unique' => 'Số điện thoại đã tồn tại trên hệ thống',
+            'role_id.required' => 'Chọn quyền cho tài khoản của bạn'
         ];
     }
 }
